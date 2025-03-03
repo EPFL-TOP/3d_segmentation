@@ -36,7 +36,7 @@ def main():
     io.logger_setup()
     
     ### MODEL
-    model_path = str(arg.model)
+    model_path = str(args.model)
     model = models.CellposeModel(gpu=True, pretrained_model=model_path)
     
     ### PARAMETERS
@@ -48,7 +48,7 @@ def main():
     cellprob_threshold = -1
     
     # Input folder containing images
-    input_folder = Path(arg.input)
+    input_folder = Path(args.input)
     output_folder = input_folder / "denoise_customnuclei_dia15_masks_rcp"
     output_folder.mkdir(exist_ok=True)  # Create folder if it doesn't exist
     
