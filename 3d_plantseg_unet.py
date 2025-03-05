@@ -2,6 +2,7 @@ from plantseg.tasks.io_tasks import import_image_task
 from pathlib import Path
 
 import torch
+print("================================== CUDAAAAA. ",torch.cuda.is_available())
 
 # Transform image into PlantsegImage
 path=Path(r"E:\PROJECTS-01\Adrian\Bachelor_project\Raw_data\t0001_ch1.tif")
