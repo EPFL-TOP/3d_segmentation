@@ -94,7 +94,7 @@ def main():
             masks,
             flows,
             #str(output_file_base),
-            img_file.stem,
+            [img_file.stem],
             channels=channels,
             png=False,  # Save masks as PNGs
             tif=True,  # Save masks as TIFFs
