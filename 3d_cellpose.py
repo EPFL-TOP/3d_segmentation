@@ -1,6 +1,6 @@
 from cellpose import core, utils, io, models, denoise, metrics, plot
 from cellpose.io import imread
-
+import torch
 import tifffile as tiff
 import os, shutil
 import glob
@@ -35,6 +35,7 @@ def main():
     use_GPU = core.use_gpu()
     yn = ['NO', 'YES']
     print(f'>>> GPU activated? {yn[use_GPU]}')
+    print("CUDA device ", torch.cuda.get_device())
     
     # Setup logging for Cellpose
     io.logger_setup()
