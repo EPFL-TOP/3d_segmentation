@@ -85,7 +85,9 @@ def main():
             anisotropy=1.5,
             min_size=-1,
         )
-    
+
+
+        print("name just befroe save ",str(output_file_base))
         # Save output masks to tiffs/pngs or txt files for ImageJ
         io.save_masks(
             img,
