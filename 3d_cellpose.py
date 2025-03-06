@@ -101,8 +101,8 @@ def main():
             save_txt=True,  # Save txt outlines for ImageJ
             save_flows=False,  # Save flows as TIFFs
             save_outlines=False,  # Save outlines as TIFFs
-            save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES
-        savedir=output_folder)
+            save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES)
+        savedir=output_folder
         )
 
 
