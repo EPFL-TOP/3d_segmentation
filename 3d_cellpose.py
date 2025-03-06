@@ -94,7 +94,7 @@ def main():
             masks,
             flows,
             #str(output_file_base),
-            "/scratch/output/feyza/test1",
+            ["/scratch/output/feyza/test1"],
             channels=channels,
             png=False,  # Save masks as PNGs
             tif=True,  # Save masks as TIFFs
