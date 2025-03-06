@@ -94,14 +94,15 @@ def main():
             masks,
             flows,
             #str(output_file_base),
-            ["/scratch/output/feyza/test1"],
+            img_file.stem,
             channels=channels,
             png=False,  # Save masks as PNGs
             tif=True,  # Save masks as TIFFs
             save_txt=True,  # Save txt outlines for ImageJ
             save_flows=False,  # Save flows as TIFFs
             save_outlines=False,  # Save outlines as TIFFs
-            save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES)
+            save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES
+        savedir=output_folder)
         )
 
 
