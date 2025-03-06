@@ -35,7 +35,7 @@ def main():
     use_GPU = core.use_gpu()
     yn = ['NO', 'YES']
     print(f'>>> GPU activated? {yn[use_GPU]}')
-    print("CUDA device ", torch.cuda.get_device())
+    print("CUDA device ", torch.cuda.torch.cuda.get_device_properties())
     
     # Setup logging for Cellpose
     io.logger_setup()
