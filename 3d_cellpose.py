@@ -13,7 +13,10 @@ def main():
         description="Cellpose argparse"
     )
     parser.add_argument("input", help="Path to the input file")
-    parser.add_argument("model", help="Path to the input model")
+    parser.add_argument("output", help="Path to the input file")
+    parser.add_argument("model", help="Path to the output file")
+    parser.add_argument("--diameter", "-d", default = 15, help="diameter for the model", type=float)
+    parser.add_argument("--channels", "-c", default = [0,0], help="channels for the model", type=list_of_ints)
     parser.add_argument(
         "--verbose", "-v",
         action="store_true",
@@ -41,15 +44,15 @@ def main():
     
     ### PARAMETERS
     # Define channels
-    channels = [[0, 0]]  # cytoplasm: 1, nucleus: 2
+    channels = [args.channels]  # cytoplasm: 1, nucleus: 2
     
     # Segmentation parameters
-    diameter = 15  # in pixels
+    diameter = args.diameter  # in pixels
     cellprob_threshold = -1
     
     # Input folder containing images
     input_folder = Path(args.input)
-    output_folder = input_folder / "denoise_customnuclei_dia15_masks_rcp"
+    output_folder = Path(args.output)
     output_folder.mkdir(exist_ok=True)  # Create folder if it doesn't exist
     
     # Process all files in the folder
