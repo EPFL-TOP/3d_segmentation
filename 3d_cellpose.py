@@ -65,7 +65,8 @@ def main():
     
         # Generate output file name
         output_file_base = output_folder / img_file.stem  # Use the base name without extension
-    
+        print("========================output_file_base ",output_file_base)
+        
         # USE cellposeDenoiseModel FOR DENOISING THE IMAGE
         from cellpose import denoise
         dn = denoise.DenoiseModel (model_type='denoise_cyto3', 
