@@ -88,7 +88,7 @@ def main():
 
 
         print("name just before save (img_file.stem) ",img_file.stem)
-        print("type img   ",type(img). ,"  len(img)   ", len(img))
+        print("type img   ",type(img)  ,"  len(img)   ", len(img))
         print("type masks ",type(masks),"  len(masks) ", len(masks))
         print("type flows ",type(flows),"  len(flows) ", len(flows))
         
