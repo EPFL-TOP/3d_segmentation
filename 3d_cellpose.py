@@ -73,7 +73,7 @@ def main():
         dn = denoise.DenoiseModel (model_type='denoise_cyto3', 
                                    gpu=True,
                                    chan2=False)
-        img = dn.eval(img, channels=channels, diameter=diameter)
+        img = dn.eval([img], channels=channels, diameter=diameter)
     
         # Perform segmentation
         masks, flows, styles = model.eval(
@@ -87,7 +87,11 @@ def main():
         )
 
 
-        print("name just befroe save ",str(output_file_base))
+        print("name just before save (img_file.stem) ",img_file.stem)
+        print("type img   ",type(img). ,"  len(img)   ", len(img))
+        print("type masks ",type(masks),"  len(masks) ", len(masks))
+        print("type flows ",type(flows),"  len(flows) ", len(flows))
+        
         # Save output masks to tiffs/pngs or txt files for ImageJ
         io.save_masks(
             img,
