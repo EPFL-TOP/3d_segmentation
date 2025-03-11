@@ -17,11 +17,8 @@ def main():
     parser.add_argument("model", help="Path to the output file")
     parser.add_argument("--diameter", "-d", default = 15, help="diameter for the model", type=float)
     parser.add_argument("--channels", "-c", default = [0,0], help="channels for the model", type=int, nargs='+')
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Increase output verbosity"
-    )
+    parser.add_argument("--image", "-i", default = "", help="input name of the image to match between NAS and Cluster", type=str)
+    parser.add_argument("--verbose", "-v",action="store_true",help="Increase output verbosity")
     
     args = parser.parse_args()
     print(args.channels)
@@ -59,7 +56,7 @@ def main():
     
     # Process all files in the folder
     for img_file in input_folder.glob("*.tif"):
-    
+        if args.image!="" and args.image!=img_file.name:continue
         # Read image
         img = imread(img_file)
         print(f'Loaded image {img_file.name} with shape: {img.shape} and data type {img.dtype}')
