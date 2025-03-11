@@ -16,6 +16,7 @@ def main():
     parser.add_argument("output", help="Path to the input file")
     parser.add_argument("model", help="Path to the output file")
     parser.add_argument("--diameter", "-d", default = 15, help="diameter for the model", type=float)
+    parser.add_argument("--anisotropy", "-a", default = 1.5, help="anisotropy", type=float)
     parser.add_argument("--channels", "-c", default = [0,0], help="channels for the model", type=int, nargs='+')
     parser.add_argument("--image", "-i", default = "", help="input name of the image to match between NAS and Cluster", type=str)
     parser.add_argument("--verbose", "-v",action="store_true",help="Increase output verbosity")
@@ -79,7 +80,7 @@ def main():
             channels=channels,
             cellprob_threshold=cellprob_threshold,
             do_3D=True,
-            anisotropy=1.5,
+            anisotropy=args.anisotropy,
             min_size=-1,
         )
 
