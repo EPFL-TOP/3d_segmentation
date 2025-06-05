@@ -38,6 +38,8 @@ You can use this :
             if i == 5:
                 break
 6. if the training is interrupted, you can resume it by using the `resume` parameter in the trainer config.
+7. The config file and models from plantseg can be found in the C: Hive once you have downloaded the plantseg repository and used the specific model. Otherwise the model I trained can be found at
+E:\PROJECTS-01\Adrian\Bachelor_project\plantseg\Train_model\model\last_checkpoint03
 '''
 
 print('GPU active : ',torch.cuda.is_available())
