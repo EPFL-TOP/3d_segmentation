@@ -8,21 +8,7 @@ import numpy as np
 import pandas as pd
 from tifffile import imwrite
 
-
-
-
-def pause():
-    """
-    Pause the program until the user presses the <ENTER> key.
-    """
-    programPause = input("Press the <ENTER> key to continue...")
-
-
 base_dir = "/mnt/e/PROJECTS-01/Adrian/Bachelor_project/GridSearch/Mouse_model"
-
-
-
-
 
 '''
 Architecture of watershed folder name
@@ -42,12 +28,16 @@ Possible combi
 _Threshold_Value_SigmaSeed_value_SigmaWeight_value_MinSize_value_Alpha_value_PixelPitch_value_Mode_value_Beta_value_MinSize2_value_Treshold2_value_Instances_value
      1    _  2  _     3   _   4 _      5    _  6  _    7  _  8  _   9 _ 10  _    11    _ 12  _ 13 _ 14  _ 15 _  16 _   17   _  18 _    19   _  20 _   21    _  22 
 
-Number of parameters 11                              
+Number of parameters 22                              
 
-Float and ints should be written as 0.0
-tuples should be written as -a,b,c-   
+Float and int should be written as 0.0
+tuples should be written as -a,b,c- i.e (1.0,9.3,3.2) --> -1.0,9.3,3.2-   
 '''
-
+def pause():
+    """
+    Pause the program until the user presses the <ENTER> key.
+    """
+    programPause = input("Press the <ENTER> key to continue...")
 
 def convert_value(value):
     """Convert a string value to its appropriate type (None, float, boolean, tuple, or string).
