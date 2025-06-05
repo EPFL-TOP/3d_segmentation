@@ -1,0 +1,242 @@
+
+# For prediction usage:
+name: little_Zebra_model
+model_class_name: unet3d
+# Path to the model checkpoint
+model_path: /mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/model/full_checkpoint03.pytorch
+
+# For the training usage, largly inspired from the train.config.yml file from plantseg3d:
+# you can find other examples in the pytorch3d repository: https://github.com/wolny/pytorch-3dunet/tree/master  
+model:
+  # name of the model
+  name: UNet3D
+  # number of input channels to the model
+  in_channels: 1
+  # number of output channels
+  out_channels: 1
+  # determines the order of operators in a single layer (crg - Conv3d+ReLU+GroupNorm)
+  layer_order: gcr
+  # initial number of feature maps at each stage of UNet encoder
+  f_maps: [32, 64, 128, 256, 512]
+  # number of groups in the groupnorm
+  num_groups: 8
+  # apply element-wise nn.Sigmoid after the final 1x1x1 convolution, otherwise apply nn.Softmax
+  final_sigmoid: true
+  is_segmentation: true
+# loss function to be used during training
+loss:
+  # use binary cross-entropy combined with the Dice loss
+  name: BCEDiceLoss
+  # skip the last channel in the target (i.e. when last channel contains data not relevant for the loss)
+  skip_last_target: true
+optimizer:
+  # initial learning rate
+  learning_rate: 0.0001
+  # weight decay
+  weight_decay: 0.00001
+# evaluation metric
+eval_metric:
+  # use AdaptedRandError metric
+  name: BoundaryAdaptedRandError
+  # probability maps threshold
+  threshold: 0.4
+  # use the last target channel to compute the metric
+  use_last_target: true
+# learning rate scheduler configuration
+lr_scheduler:
+  # reduce learning rate when training stagnates
+  name: ReduceLROnPlateau
+  # make sure to use the 'min' mode cause lower AdaptedRandError is better
+  mode: min
+  # reduce by a factor of 5
+  factor: 0.2
+  # reduce LR if the validation metric does not improve after 'patience' number of validation runs
+  patience: 10
+trainer:
+  #pre_trained (string): path to the pre-trained model
+  pre_trained: '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/model/full_checkpoint.pytorch'
+  #resume : '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/model/last_checkpoint01.pytorch'
+  #resume: '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/model/last_checkpoint03.pytorch'
+  # model with lower eval score is considered better
+  eval_score_higher_is_better: False                                            # WHY NOT TRUE ? 
+  # path to the checkpoint directory (this is where the model is saved)
+  checkpoint_dir: '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/model'
+  # how many iterations between validations
+  validate_after_iters: 1000
+  # how many iterations between tensorboard logging
+  log_after_iters: 500
+  # max number of epochs
+  max_num_epochs: 500
+  # max number of iterations
+  max_num_iterations : 50000
+  #if True eval_criterion is not evaluated on the training set (used when evaluation is expensive)
+  skip_train_validation : False
+device: CUDA
+
+# Data loaders configuration
+loaders:
+  # Dataset implementation to use
+  #dataset: StandardHDF5Dataset
+  dataset: LazyHDF5Dataset
+  # How many subprocesses to use for data loading
+  num_workers: 4
+  # Batch size
+  batch_size: 2 # monte à 4
+  # Training dataset parameters
+  train:
+    # List of paths to HDF5 files containing the training data
+    file_paths:
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_2.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_3.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_4.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_5.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_6.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_7.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_10.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_11.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_12.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_13.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_14.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_15.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_17.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_18.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_20.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_21.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_22.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_23.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_24.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_25.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_26.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_27.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_28.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_29.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_30.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_32.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_33.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_34.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_35.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_36.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_38.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_39.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_41.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_42.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_43.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_45.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_46.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_48.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_49.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_50.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_51.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_52.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_53.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_54.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_55.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_57.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_59.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_62.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_63.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_64.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_65.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_67.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_68.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_69.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_70.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_71.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_73.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_74.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/train/t0001_75.h5'
+
+
+
+    # Slice builder to use
+    slice_builder:
+      name: SliceBuilder
+      # Patch size for 3D volumes during training
+      patch_shape: [64, 64, 64]
+      #patch_shape: [80, 160, 160]
+      #patch_shape: [40, 96, 96]
+      # Stride between patches
+      stride_shape: [32, 32, 32]
+      #stride_shape: [40, 80, 80]
+      # Skip boundaries with smaller patches
+      skip_incomplete: True
+    # Data transformations
+    transformer:
+      raw:
+        - name: Standardize
+        - name: RandomFlip
+        - name: RandomRotate90
+        - name: RandomRotate
+          # rotate only in ZY plane due to anisotropy
+          axes: [[2, 1]]
+          angle_spectrum: 45
+          mode: reflect
+        - name: ElasticDeformation
+          spline_order: 3
+          execution_probability: 0.2
+        - name: GaussianBlur3D
+          execution_probability: 0.5
+        - name: AdditiveGaussianNoise
+          execution_probability: 0.2
+        - name: AdditivePoissonNoise
+          execution_probability: 0.2
+        - name: ToTensor
+          expand_dims: true
+      label:
+        - name: RandomFlip
+        - name: RandomRotate90
+        - name: RandomRotate
+          # rotate only in ZY plane due to anisotropy
+          axes: [[2, 1]]
+          angle_spectrum: 45
+          mode: reflect
+        - name: ElasticDeformation
+          spline_order: 0
+          execution_probability: 0.2
+        - name: StandardLabelToBoundary
+          # append original ground truth labels to the last channel (to be able to compute the eval metric)
+          append_label: true
+        - name: ToTensor
+          expand_dims: true
+    
+  # Validation dataset parameters
+  val:
+    # List of paths to HDF5 files containing the validation data
+    file_paths:
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_8.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_9.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_16.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_19.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_31.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_37.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/Val/t0001_40.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_44.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_47.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_56.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_58.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_60.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_61.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_66.h5'
+      - '/mnt/e/PROJECTS-01/Adrian/Bachelor_project/Train/val/t0001_72.h5'
+    # Slice builder for validation
+    slice_builder:
+      name: SliceBuilder
+      # Patch size for 3D volumes during training
+      patch_shape: [64, 64, 64]
+      #patch_shape: [80, 160, 160]
+      #patch_shape: [40, 96, 96]
+      # Stride between patches
+      stride_shape: [32, 32, 32]
+      #stride_shape: [40, 80, 80]
+      skip_incomplete: True
+    # Usually the same transformations as for training
+    transformer:
+      raw:
+        - name: Standardize
+        - name: ToTensor
+          expand_dims: True
+      label:
+        - name: StandardLabelToBoundary
+          append_label: True
+        - name: ToTensor
+          expand_dims: True
