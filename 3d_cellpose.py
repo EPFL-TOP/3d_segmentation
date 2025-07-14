@@ -111,13 +111,12 @@ def main():
             save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES)
         savedir=output_folder
         )
-    os.chmod(args.output, 0o2775)
-    os.chmod(os.path.join(output_file_base,'.tif'), 0o664)
+        os.chmod(args.output, 0o2775)
+        os.chmod(os.path.join(output_file_base,'.tif'), 0o664)
 
 
 if __name__ == "__main__":
     main()
-    import os
 
 
 
