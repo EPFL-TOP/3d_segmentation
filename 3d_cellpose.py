@@ -111,26 +111,13 @@ def main():
             save_mpl=False,  # Make matplotlib fig to view (WARNING: SLOW W/ LARGE IMAGES)
         savedir=output_folder
         )
-
+    os.chmod(args.output, 0o2775)
+    os.chmod(os.path.join(output_file_base,'.tif'), 0o664)
 
 
 if __name__ == "__main__":
     main()
     import os
-    import subprocess
-    
-    OUTPUT_DIR = '/scratch/data/output'  # whatever top‑level folder you write
-    
-    # 1. Ensure group ownership (replace 'yourgroup' if needed)
-    subprocess.run(['chgrp', '-R', 11349, OUTPUT_DIR], check=False)
-    
-    # 2. Fix directory permissions to 2775 (rwxrwsr-x)
-    for dirpath, dirnames, filenames in os.walk(OUTPUT_DIR):
-        os.chmod(dirpath, 0o2775)
-    
-    # 3. Fix file permissions to 664 (rw-rw-r--)
-    for dirpath, dirnames, filenames in os.walk(OUTPUT_DIR):
-        for fname in filenames:
-            os.chmod(os.path.join(dirpath, fname), 0o664)
+
 
 
