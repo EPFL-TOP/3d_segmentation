@@ -7,6 +7,10 @@ import glob
 import numpy as np
 from pathlib import Path
 import argparse
+import os
+
+# Set umask so new files are group-writable
+os.umask(0o0002)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -112,3 +116,21 @@ def main():
 
 if __name__ == "__main__":
     main()
+    import os
+    import subprocess
+    
+    OUTPUT_DIR = '/scratch/data/output'  # whatever top‑level folder you write
+    
+    # 1. Ensure group ownership (replace 'yourgroup' if needed)
+    subprocess.run(['chgrp', '-R', 11349, OUTPUT_DIR], check=False)
+    
+    # 2. Fix directory permissions to 2775 (rwxrwsr-x)
+    for dirpath, dirnames, filenames in os.walk(OUTPUT_DIR):
+        os.chmod(dirpath, 0o2775)
+    
+    # 3. Fix file permissions to 664 (rw-rw-r--)
+    for dirpath, dirnames, filenames in os.walk(OUTPUT_DIR):
+        for fname in filenames:
+            os.chmod(os.path.join(dirpath, fname), 0o664)
+
+
