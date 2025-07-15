@@ -86,7 +86,9 @@ def main():
                                       min_size=args.minsize)
 
         output_mask_name = os.path.join(args.output, "{}".format(os.path.split(img_file)[-1].replace(".tif","_masks.tif")))
-        print("output_mask_name  ",output_mask_name )
+        print("output_mask_name  ",output_mask_name) 
+        #io.imsave(str(output_file_base) + "_masks", masks)
+
         io.imsave(output_mask_name, masks)
       
         
