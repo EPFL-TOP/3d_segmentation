@@ -84,8 +84,9 @@ def main():
                                       do_3D=True, flow3D_smooth=1,
                                       diameter=diameter,
                                       min_size=args.minsize)
-        
-        io.imsave((output_file_base + "_masks"), masks)
+
+        output_mask_name = os.path.join(args.output, "{}".format(os.path.split(img_file)[-1].replace(".tif","_masks.tif")))
+        io.imsave(output_mask_name, masks)
       
   
         print("name just before save (img_file.stem) ",img_file.stem)
