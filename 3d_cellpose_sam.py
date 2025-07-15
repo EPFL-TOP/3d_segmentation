@@ -86,17 +86,12 @@ def main():
                                       min_size=args.minsize)
 
         output_mask_name = os.path.join(args.output, "{}".format(os.path.split(img_file)[-1].replace(".tif","_masks.tif")))
+        print("output_mask_name  ",output_mask_name )
         io.imsave(output_mask_name, masks)
       
-  
-        print("name just before save (img_file.stem) ",img_file.stem)
-        print("type img   ",type(img)  ,"  len(img)   ", len(img))
-        print("type masks ",type(masks),"  len(masks) ", len(masks))
-        print("type flows ",type(flows),"  len(flows) ", len(flows))
-        
         
         os.chmod(args.output, 0o2775)
-        os.chmod(os.path.join(output_file_base,'.tif'), 0o664)
+        os.chmod(os.path.join(output_mask_name), 0o664)
 
 
 if __name__ == "__main__":
